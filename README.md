@@ -9,7 +9,8 @@ Support for integer types like
 This is a .NET wrapper for https://github.com/japajoe/volt
 
 # Note
-Instruction opcodes are case sensitive and MUST be lower case!
+- Instruction opcodes are case sensitive and MUST be lower case!
+- Get the native libraries (x64) for Windows and Linux from the [libs](https://github.com/japajoe/VoltLangNET/tree/main/Examples) folder.
 
 # Examples
 Check [here](https://github.com/japajoe/VoltLangNET/tree/main/Examples).
