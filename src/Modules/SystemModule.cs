@@ -13,9 +13,6 @@ namespace VoltLangNET
         private static VoltVMFunction pushstring;
         private static VoltVMFunction get_module_handle;
 
-        private static string testString = "This is some test string\n";
-        private static IntPtr testStringPtr;
-
         public SystemModule()
         {
             print = Print;
@@ -24,8 +21,6 @@ namespace VoltLangNET
             timestamp = TimeStamp;
             pushstring = PushString;
             get_module_handle = GetModuleHandle;
-
-            testStringPtr = Marshal.StringToHGlobalAnsi(testString);
         }
 
         public void Register()
@@ -40,21 +35,7 @@ namespace VoltLangNET
 
         public void Dispose()
         {
-            Marshal.FreeHGlobal(testStringPtr);
-        }
 
-        private static int PushString(StackPointer sp)
-        {
-            Stack stack = new Stack(sp);
-
-            Console.WriteLine("C# PushString address {0:x}", testStringPtr);
-
-            if(!stack.PushString(testStringPtr, out ulong offset))
-            {
-                return -1;
-            }
-
-            return 0;
         }
 
         private static int Print(StackPointer sp)
