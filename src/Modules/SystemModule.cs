@@ -10,7 +10,6 @@ namespace VoltLangNET
         private static VoltVMFunction println;
         private static VoltVMFunction endln;
         private static VoltVMFunction timestamp;
-        private static VoltVMFunction pushstring;
         private static VoltVMFunction get_module_handle;
 
         public SystemModule()
@@ -19,7 +18,6 @@ namespace VoltLangNET
             println = PrintLine;
             endln = EndLine;
             timestamp = TimeStamp;
-            pushstring = PushString;
             get_module_handle = GetModuleHandle;
         }
 
@@ -29,7 +27,6 @@ namespace VoltLangNET
             VirtualMachine.RegisterFunction("println", println);
             VirtualMachine.RegisterFunction("endln", endln);
             VirtualMachine.RegisterFunction("timestamp", timestamp);
-            VirtualMachine.RegisterFunction("push_string", pushstring);
             VirtualMachine.RegisterFunction("get_module_handle", get_module_handle);
         }
 

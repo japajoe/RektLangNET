@@ -234,6 +234,6 @@ namespace VoltLangNET
         /// <param name="name">The name of the module</param>
         /// <param name="address">The address of the module</param>
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void volt_get_module_address(string name, out UInt64 address);        
+        public static extern void volt_get_module_address(string name, out UInt64 address);
     }
 }
