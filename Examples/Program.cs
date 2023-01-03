@@ -6,7 +6,7 @@ namespace VoltLangNET
     {
         static void Main(string[] args)
         {
-            string filepath = "fibonacci.vlt";
+            string filepath = "helloworld.vlt";
 
             Assembly assembly = new Assembly();
             VirtualMachine machine = new VirtualMachine();

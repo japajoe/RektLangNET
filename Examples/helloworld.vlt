@@ -1,27 +1,8 @@
+;;This is a comment. Note that it needs double semicolons
+
 section data
-    helloText db : "Hello, world!"
-    elapsedText db : "Time elapsed milliseconds: "
-    iterations dq : 10
-    counter dq : 0
-    timeStart dq : 0
-    timeEnd dq : 0
+    helloText db : "Hello, world!\n"
 section text
-init:    
-    call timestamp
-    pop timeStart    
-start:
-    cmp counter iterations
-    jge end
-    inc counter
     push helloText
-    push helloText
-    call println
-    jmp start   
-end:
-    call timestamp
-    pop timeEnd
-    sub timeEnd timeStart    
-    push elapsedText
     call print
-    push timeEnd    
-    call println
+    hlt
