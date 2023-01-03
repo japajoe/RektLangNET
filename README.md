@@ -10,7 +10,7 @@ This is a .NET wrapper for https://github.com/japajoe/volt
 
 # Note
 - Instruction opcodes are case sensitive and MUST be lower case!
-- Get the native libraries (x64) for Windows and Linux from the [libs](https://github.com/japajoe/VoltLangNET/tree/main/Examples) folder.
+- Get the native libraries (x64) for Windows and Linux from the [libs](https://github.com/japajoe/VoltLangNET/tree/main/libs) folder.
 - You need .net 7 for this library. You might be able to try it on 6 or even 5 but I haven't tested that.
 
 # Examples
