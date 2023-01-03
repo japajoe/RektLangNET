@@ -5,9 +5,6 @@ Support for integer types like
 - int64/uint64
 - double
 
-# Dependencies
-- None
-
 # About
 This is a .NET wrapper for https://github.com/japajoe/volt
 
