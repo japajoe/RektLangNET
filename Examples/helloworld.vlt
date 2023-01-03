@@ -1,0 +1,27 @@
+section data
+    helloText db : "Hello, world!"
+    elapsedText db : "Time elapsed milliseconds: "
+    iterations dq : 10
+    counter dq : 0
+    timeStart dq : 0
+    timeEnd dq : 0
+section text
+init:    
+    call timestamp
+    pop timeStart    
+start:
+    cmp counter iterations
+    jge end
+    inc counter
+    push helloText
+    push helloText
+    call println
+    jmp start   
+end:
+    call timestamp
+    pop timeEnd
+    sub timeEnd timeStart    
+    push elapsedText
+    call print
+    push timeEnd    
+    call println
