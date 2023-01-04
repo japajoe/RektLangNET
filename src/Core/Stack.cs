@@ -314,31 +314,55 @@ namespace VoltLangNET
             return true;
         }
 
+        /// <summary>
+        /// Gets a pointer to the stack buffer.
+        /// </summary>
+        /// <returns>A pointer to the stack buffer</returns>
         public IntPtr GetBuffer()
         {
             return VoltNative.volt_stack_get_buffer(handle);
         }
 
+        /// <summary>
+        /// Gets a pointer to the item on the top of the stack.
+        /// </summary>
+        /// <returns>A pointer to the item on the top of the stack.</returns>
         public IntPtr GetTop()
         {
             return VoltNative.volt_stack_get_top(handle);
         }
 
+        /// <summary>
+        /// Gets the type of the item that is on the top of the stack.
+        /// </summary>
+        /// <returns>The type of the item that is on the top of the stack</returns>
         public DataType GetTopType()
         {
             return VoltNative.volt_stack_get_top_type(handle);
         }
 
+        /// <summary>
+        /// Gets the total capacity of the stack in number of bytes.
+        /// </summary>
+        /// <returns>The total capacity of the stack in number of bytes.</returns>
         public UInt64 GetCapacity()
         {
             return VoltNative.volt_stack_get_capacity(handle);
         }
 
+        /// <summary>
+        /// Gets the number of bytes that currently is in the stack.
+        /// </summary>
+        /// <returns>The number of bytes that currently is in the stack</returns>
         public UInt64 GetSize()
         {
             return VoltNative.volt_stack_get_size(handle);
         }
 
+        /// <summary>
+        /// Gets the number of items currently on the stack.
+        /// </summary>
+        /// <returns>The number of items currently on the stack</returns>
         public UInt64 GetCount()
         {
             return VoltNative.volt_stack_get_count(handle);

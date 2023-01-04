@@ -59,6 +59,8 @@ namespace VoltLangNET
 
             stack.PushInt64(pointer.ToInt64(), out offset);
 
+            Console.WriteLine("MemAlloc allocated " + size + " bytes on address " + pointer.ToInt64());
+
             return 0;
         }
 
@@ -100,6 +102,8 @@ namespace VoltLangNET
 
             VoltNative.volt_memory_set(new IntPtr(pointer), (int)value, size);
 
+            Console.WriteLine("MemSet set " + size + " bytes to value " + value + " on address " + pointer);
+
             return 0;
         }
 
@@ -132,6 +136,8 @@ namespace VoltLangNET
 
             VoltNative.volt_memory_copy(new IntPtr(src), new IntPtr(dest), size);
 
+            Console.WriteLine("MemCopy copied " + size + " bytes from address " + src + " to address " + dest);
+
             return 0;
         }
 
@@ -157,6 +163,8 @@ namespace VoltLangNET
                 return -1;
 
             VoltNative.volt_memory_free(new IntPtr(src));
+
+            Console.WriteLine("MemFree freed address " + src);
 
             return 0;
         }
