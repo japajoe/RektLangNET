@@ -115,6 +115,9 @@ namespace VoltLangNET
         }
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern OpCode volt_assembly_get_instruction_opcode(AssemblyPointer assembly, UInt64 offset);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern VirtualMachinePointer volt_virtual_machine_create(UInt64 stackCapacity);
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
@@ -235,5 +238,17 @@ namespace VoltLangNET
         /// <param name="address">The address of the module</param>
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern void volt_get_module_address(string name, out UInt64 address);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr volt_memory_alloc(UInt64 size);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr volt_memory_set(IntPtr src, int value, UInt64 size);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern IntPtr volt_memory_copy(IntPtr src, IntPtr dest, UInt64 size);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void volt_memory_free(IntPtr ptr);
     }
 }

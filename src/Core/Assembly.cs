@@ -78,6 +78,16 @@ namespace VoltLangNET
         }
 
         /// <summary>
+        /// Gets the OpCode of the instruction at given offset.
+        /// </summary>
+        /// <param name="offset">The offset of the instruction</param>
+        /// <returns>The OpCode of the instruction at given offset. On failure, returns OpCode.NUM_OPCODES.</returns>
+        public OpCode GetInstructionOpCode(UInt64 offset)
+        {
+            return VoltNative.volt_assembly_get_instruction_opcode(handle, offset);
+        }
+
+        /// <summary>
         /// Releases the allocated memory associated with this Assembly instance.
         /// </summary>
         public void Dispose()

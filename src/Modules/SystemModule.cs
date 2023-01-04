@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace VoltLangNET
 {
@@ -8,6 +7,7 @@ namespace VoltLangNET
         private static byte[] buffer = new byte[8];
         private static VoltVMFunction print;
         private static VoltVMFunction println;
+        private static VoltVMFunction printhx;
         private static VoltVMFunction endln;
         private static VoltVMFunction timestamp;
         private static VoltVMFunction get_module_handle;
@@ -16,6 +16,7 @@ namespace VoltLangNET
         {
             print = Print;
             println = PrintLine;
+            printhx = PrintHex;
             endln = EndLine;
             timestamp = TimeStamp;
             get_module_handle = GetModuleHandle;
@@ -25,6 +26,7 @@ namespace VoltLangNET
         {
             VirtualMachine.RegisterFunction("print", print);
             VirtualMachine.RegisterFunction("println", println);
+            VirtualMachine.RegisterFunction("printhx", printhx);
             VirtualMachine.RegisterFunction("endln", endln);
             VirtualMachine.RegisterFunction("timestamp", timestamp);
             VirtualMachine.RegisterFunction("get_module_handle", get_module_handle);
@@ -48,6 +50,20 @@ namespace VoltLangNET
 
             return 0;
         }
+
+        private static int PrintHex(StackPointer sp)
+        {
+            Stack stack = new Stack(sp);
+
+            if (!stack.TryPopAsUInt64(buffer, out ulong value, out ulong offset))
+            {
+                return -1;
+            }
+
+            Console.Write("0x{0:x}", value);
+
+            return 0;
+        }        
 
         private static int PrintLine(StackPointer sp)
         {
