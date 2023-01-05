@@ -1,34 +1,36 @@
-﻿using System;
+using System;
+using VoltLangNET;
 
-namespace VoltLangNET
+namespace VoltLangNETApplication
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string filepath = "helloworld.vlt";
+            string filepath = "fibonacci.vlt";
 
             Assembly assembly = new Assembly();
             VirtualMachine machine = new VirtualMachine();
             Compiler compiler = new Compiler();
 
             ModuleLoader.Load(new MathModule());
-            ModuleLoader.Load(new SystemModule());            
+            ModuleLoader.Load(new SystemModule());
+            ModuleLoader.Load(new MemoryModule());
 
             if(compiler.CompileFromFile(filepath, assembly))
             {
-                if(machine.LoadAssembly(assembly))
+                if (machine.LoadAssembly(assembly))
                 {
                     ExecutionStatus status = ExecutionStatus.Ok;
 
-                    var tp1 = DateTime.Now;                   
+                    var tp1 = DateTime.Now;
 
-                    while(status == ExecutionStatus.Ok)
+                    while (status == ExecutionStatus.Ok)
                     {
                         status = machine.Run();
                     }
-                    
-                    if(status != ExecutionStatus.Done)
+
+                    if (status != ExecutionStatus.Done)
                         Console.WriteLine(status);
 
                     var tp2 = DateTime.Now;
