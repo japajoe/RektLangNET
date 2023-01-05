@@ -13,6 +13,61 @@ This is a .NET wrapper for https://github.com/japajoe/volt
 - Get the native libraries (x64) for Windows and Linux from the [libs](https://github.com/japajoe/VoltLangNET/tree/main/libs) folder.
 - You need .net 7 for this library. You might be able to try it on 6 or even 5 but I haven't tested that.
 
+# Setting up application
+```csharp
+using System;
+using VoltLangNET;
+
+namespace VoltLangNETApplication
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string filepath = "fibonacci.vlt";
+
+            Assembly assembly = new Assembly();
+            VirtualMachine machine = new VirtualMachine();
+            Compiler compiler = new Compiler();
+
+            ModuleLoader.Load(new MathModule());
+            ModuleLoader.Load(new SystemModule());
+            ModuleLoader.Load(new MemoryModule());
+
+            if(compiler.CompileFromFile(filepath, assembly))
+            {
+                if (machine.LoadAssembly(assembly))
+                {
+                    ExecutionStatus status = ExecutionStatus.Ok;
+
+                    var tp1 = DateTime.Now;
+
+                    while (status == ExecutionStatus.Ok)
+                    {
+                        status = machine.Run();
+                    }
+
+                    if (status != ExecutionStatus.Done)
+                        Console.WriteLine(status);
+
+                    var tp2 = DateTime.Now;
+
+                    double elapsed = Math.Round((tp2 - tp1).TotalMicroseconds * 0.001, 3);
+
+                    Console.WriteLine("Execution finished in " + elapsed + " milliseconds");
+                }
+            }
+
+            compiler.Dispose();
+            machine.Dispose();
+            assembly.Dispose();
+
+            ModuleLoader.Dispose();
+        }
+    }
+}
+```
+
 # Examples
 Check [here](https://github.com/japajoe/VoltLangNET/tree/main/Examples).
 
