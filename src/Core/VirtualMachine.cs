@@ -71,6 +71,16 @@ namespace VoltLangNET
         }
 
         /// <summary>
+        /// Jumps to a label and starts executing from there.
+        /// </summary>
+        /// <param name="labelOffset">The offset of the label</param>
+        /// <returns>An ExecutionStatus telling whether the execution was successful or not.</returns>
+        public ExecutionStatus Call(UInt64 labelOffset)
+        {
+            return VoltNative.volt_virtual_machine_call(handle, labelOffset);
+        }
+
+        /// <summary>
         /// Registers a function so it can get called from within a loaded assembly.
         /// </summary>
         /// <param name="name">The name of the function</param>

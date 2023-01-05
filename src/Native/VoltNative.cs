@@ -139,6 +139,9 @@ namespace VoltLangNET
         public static extern ExecutionStatus volt_virtual_machine_run(VirtualMachinePointer vm);
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern ExecutionStatus volt_virtual_machine_call(VirtualMachinePointer vm, UInt64 labelOffset);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         private static extern IntPtr volt_virtual_machine_get_registers(VirtualMachinePointer vm, out UInt64 size);
 
         public static unsafe bool volt_virtual_machine_get_registers(VirtualMachinePointer vm, out Span<byte> buffer)
