@@ -4,5 +4,5 @@ section data
     helloText db : "Hello, world!\n"
 section text
     push helloText
-    call print
+    call printf
     hlt

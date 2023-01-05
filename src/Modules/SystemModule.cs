@@ -5,29 +5,20 @@ namespace VoltLangNET
     public unsafe class SystemModule : IModule
     {
         private static byte[] buffer = new byte[8];
-        private static VoltVMFunction print;
-        private static VoltVMFunction println;
-        private static VoltVMFunction printhx;
-        private static VoltVMFunction endln;
+        private static VoltVMFunction printf;
         private static VoltVMFunction timestamp;
         private static VoltVMFunction get_module_handle;
 
         public SystemModule()
         {
-            print = Print;
-            println = PrintLine;
-            printhx = PrintHex;
-            endln = EndLine;
+            printf = PrintF;
             timestamp = TimeStamp;
             get_module_handle = GetModuleHandle;
         }
 
         public void Register()
         {
-            VirtualMachine.RegisterFunction("print", print);
-            VirtualMachine.RegisterFunction("println", println);
-            VirtualMachine.RegisterFunction("printhx", printhx);
-            VirtualMachine.RegisterFunction("endln", endln);
+            VirtualMachine.RegisterFunction("printf", printf);
             VirtualMachine.RegisterFunction("timestamp", timestamp);
             VirtualMachine.RegisterFunction("get_module_handle", get_module_handle);
         }
@@ -37,51 +28,42 @@ namespace VoltLangNET
 
         }
 
-        private static int Print(StackPointer sp)
+        private static int PrintF(StackPointer sp)
         {
             Stack stack = new Stack(sp);
+            
+            ulong offset = 0;
+            ulong stackCount = stack.GetCount();
 
-            if (!stack.TryPopAsString(buffer, out string value, out ulong offset))
+            if(stackCount == 0)
             {
-                return -1;
+                Console.WriteLine();
+            }
+            else if(stackCount == 1)
+            {
+                if (!stack.TryPopAsString(buffer, out string message, out offset))
+                    return -1;
+
+                Console.Write(message);
+            }
+            else
+            {
+                if (!stack.TryPopAsString(buffer, out string message, out offset))
+                    return -1;
+
+                object[] args = new object[stackCount - 1];
+                for (ulong i = 0; i < stackCount-1; i++)
+                {
+                    if (!stack.TryPopAsObject(buffer, out object value, out offset))
+                        return -1;
+
+                    args[i] = value;
+                }
+
+                Console.Write(message, args);
+                
             }
 
-            Console.Write(value);
-
-            return 0;
-        }
-
-        private static int PrintHex(StackPointer sp)
-        {
-            Stack stack = new Stack(sp);
-
-            if (!stack.TryPopAsUInt64(buffer, out ulong value, out ulong offset))
-            {
-                return -1;
-            }
-
-            Console.Write("0x{0:x}", value);
-
-            return 0;
-        }        
-
-        private static int PrintLine(StackPointer sp)
-        {
-            Stack stack = new Stack(sp);
-
-            if (!stack.TryPopAsString(buffer, out string value, out ulong offset))
-            {
-                return -1;
-            }
-
-            Console.WriteLine(value);
-
-            return 0;
-        }
-
-        private static int EndLine(StackPointer sp)
-        {
-            Console.WriteLine();
             return 0;
         }
 

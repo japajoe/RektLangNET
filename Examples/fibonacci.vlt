@@ -11,7 +11,7 @@ section data
 section text
 start:
     push startText
-    call print
+    call printf
 loop:
     cmp counter iterations
     jge end
@@ -26,7 +26,7 @@ loop:
     mov num1 eax
 
     push ebx
-    call println
+    call printf
     
     jmp loop
 end:

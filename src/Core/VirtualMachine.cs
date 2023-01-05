@@ -17,7 +17,7 @@ namespace VoltLangNET
         /// <summary>
         /// Creates a new VirtualMachine instance.
         /// </summary>
-        /// <param name="stackCapacity">The capacity of the stack in number of bytes. Must be a power of 2.</param>
+        /// <param name="stackCapacity">The capacity of the stack in number of bytes. Minimum size is 1024 and must be a power of 2.</param>
         public VirtualMachine(UInt64 stackCapacity = 8192)
         {
             handle = VoltNative.volt_virtual_machine_create(stackCapacity);

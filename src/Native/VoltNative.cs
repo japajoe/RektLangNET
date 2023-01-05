@@ -211,6 +211,9 @@ namespace VoltLangNET
         }
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern bool volt_stack_pop_with_count(StackPointer stack, UInt64 count, out UInt64 stackOffset);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr volt_stack_get_buffer(StackPointer stack);
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]

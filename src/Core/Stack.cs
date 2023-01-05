@@ -55,6 +55,23 @@ namespace VoltLangNET
             return VoltNative.volt_stack_pop(handle, target, out stackOffset);
         }
 
+        /// <summary>
+        /// Pops x number of items off the stack.
+        /// </summary>
+        /// <param name="count">The number if items to pop</param>
+        /// <param name=""></param>
+        /// <returns>True on succes or when there is nothing to pop, false on failure</returns>
+        public bool Pop(UInt64 count, out UInt64 stackOffset)
+        {
+            if (GetCount() == 0)
+            {
+                stackOffset = 0;
+                return true;
+            }
+
+            return VoltNative.volt_stack_pop_with_count(handle, count, out stackOffset);
+        }
+
         public bool PopDouble(byte[] target, out double value, out UInt64 stackOffset)
         {
             value = 0;
@@ -278,6 +295,60 @@ namespace VoltLangNET
                     return false;
             }        
         }
+
+        public bool TryPopAsObject(byte[] target, out object value, out UInt64 stackOffset)
+        {
+            value = default;
+            stackOffset = 0;
+
+            DataType type = GetTopType();
+
+            switch(type)
+            {
+                case DataType.Double:
+                {
+                    if(!PopDouble(target, out double v, out stackOffset))
+                    {
+                        return false;
+                    }
+
+                    value = v;
+                    return true;
+                }
+                case DataType.UInt64:
+                {
+                    if(!PopUInt64(target, out UInt64 v, out stackOffset))
+                    {
+                        return false;
+                    }
+
+                    value = v;
+                    return true;
+                }
+                case DataType.Int64:
+                {
+                    if(!PopInt64(target, out Int64 v, out stackOffset))
+                    {
+                        return false;
+                    }
+
+                    value = v;
+                    return true;
+                }
+                case DataType.Pointer:
+                {
+                    if(!Pop(target, out ulong offset))
+                    {
+                        return false;
+                    }
+
+                    value = NullTerminatedString.GetString(target);
+                    return true;
+                }
+                default:
+                    return false;
+            }        
+        }        
 
         public bool CheckType(DataType type, Int64 index)
         {
