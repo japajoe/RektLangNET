@@ -6,13 +6,13 @@ namespace VoltLangNET
     [StructLayout(LayoutKind.Sequential)]
     public struct VirtualMachinePointer
     {
-        public IntPtr pointer;
+        public UIntPtr pointer;
 
         public bool IsValid
         {
             get
             {
-                return pointer != IntPtr.Zero;
+                return pointer != UIntPtr.Zero;
             }
         }
     }
