@@ -112,6 +112,24 @@ namespace VoltLangNET
         }
 
         /// <summary>
+        /// Gets the compare flag. This flag indicates if the previous math operation evaluated to greater than, less than or equal.
+        /// </summary>
+        /// <returns>The compare flag</returns>
+        public Int64 GetCompareFlag()
+        {
+            return VoltNative.volt_virtual_machine_get_compare_flag(handle);
+        }
+
+        /// <summary>
+        /// Gets the zero flag. This flag indicates if the previous math operation evaluated to 0.
+        /// </summary>
+        /// <returns>The zero flag</returns>
+        public Int64 GetZeroFlag()
+        {
+            return VoltNative.volt_virtual_machine_get_zero_flag(handle);
+        }        
+
+        /// <summary>
         /// Releases the allocated memory associated with this VirtualMachine instance.
         /// </summary>
         public void Dispose()

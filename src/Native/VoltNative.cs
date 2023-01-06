@@ -162,6 +162,12 @@ namespace VoltLangNET
         public static extern StackPointer volt_virtual_machine_get_stack(VirtualMachinePointer vm);
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern Int64 volt_virtual_machine_get_compare_flag(VirtualMachinePointer vm);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern Int64 volt_virtual_machine_get_zero_flag(VirtualMachinePointer vm);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern CompilerPointer volt_compiler_create();
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
