@@ -2,25 +2,20 @@ using System;
 
 namespace VoltLangNET
 {
+    [Obsolete("This module is implemented in the native library and only serves as an example of how to make your own module.")]
     public unsafe class SystemModule : IModule
     {
         private static byte[] buffer = new byte[8];
         private static VoltVMFunction printf;
-        private static VoltVMFunction timestamp;
-        private static VoltVMFunction get_module_handle;
 
         public SystemModule()
         {
             printf = PrintF;
-            timestamp = TimeStamp;
-            get_module_handle = GetModuleHandle;
         }
 
         public void Register()
         {
             VirtualMachine.RegisterFunction("printf", printf);
-            VirtualMachine.RegisterFunction("timestamp", timestamp);
-            VirtualMachine.RegisterFunction("get_module_handle", get_module_handle);
         }
 
         public void Dispose()
@@ -65,30 +60,6 @@ namespace VoltLangNET
             }
 
             return 0;
-        }
-
-        private static int TimeStamp(StackPointer sp)        
-        {
-            Stack stack = new Stack(sp);
-            long timestamp = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-            stack.PushInt64(timestamp, out ulong offset);
-            return 0;
-        }
-
-        private static int GetModuleHandle(StackPointer sp)
-        {
-            Stack stack = new Stack(sp);
-
-            if (!stack.TryPopAsString(buffer, out string value, out ulong offset))
-            {
-                return -1;
-            }
-
-            VoltNative.volt_get_module_address(value, out ulong address);
-
-            stack.PushUInt64(address, out offset);
-
-            return 0;            
         }
     }
 }

@@ -6,6 +6,11 @@ namespace VoltLangNET
     public static class ModuleLoader
     {
         private static Dictionary<IModule, int> modules = new Dictionary<IModule, int>();
+
+        public static void LoadDefaultModules()
+        {
+            VoltNative.volt_modules_load();
+        }
         
         public static void Load(IModule module)
         {
@@ -23,6 +28,8 @@ namespace VoltLangNET
             {
                 module.Dispose();
             }
+
+            VoltNative.volt_modules_dispose();
         }
     }
 }

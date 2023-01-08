@@ -44,11 +44,20 @@ namespace VoltLangNET
             return VoltNative.volt_stack_push_uint64(handle, value, out stackOffset);
         }
 
-        public bool PushString(IntPtr value, out UInt64 stackOffset)
+        public bool PushString(string value, out UInt64 stackOffset)
         {
-            char* ptr = (char*)value.ToPointer();            
-            return VoltNative.volt_stack_push_string(handle, ptr, out stackOffset);
-        }          
+            return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
+        }
+
+        public bool PushString(UIntPtr value, out UInt64 stackOffset)
+        {
+            return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
+        }
+
+        // public bool PushString(char* value, out UInt64 stackOffset)
+        // {
+        //     return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
+        // }                   
 
         public bool Pop(byte[] target, out UInt64 stackOffset)
         {
@@ -193,7 +202,7 @@ namespace VoltLangNET
 
                     value = (UInt64)v;
                     return true;
-                }
+                }               
                 default:
                     return false;
             }
@@ -247,7 +256,7 @@ namespace VoltLangNET
             value = default;
             stackOffset = 0;
 
-            DataType type = GetTopType();
+            DataType type = GetTopType();            
 
             switch(type)
             {
@@ -290,7 +299,7 @@ namespace VoltLangNET
 
                     value = NullTerminatedString.GetString(target);
                     return true;
-                }
+                }                
                 default:
                     return false;
             }        

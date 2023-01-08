@@ -38,11 +38,11 @@ namespace VoltLangNET
     {
         private const string LIBRARY_NAME = "volt";    
 
-        /// <summary>
-        /// Loads standard VM functions such as print/println/endln/timestamp. Not really necessary to call if you implement your own functions.
-        /// </summary>
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void volt_library_init();
+        public static extern void volt_modules_load();
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern void volt_modules_dispose();
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool volt_function_register(string name, VoltVMFunction fn_ptr);
@@ -202,8 +202,14 @@ namespace VoltLangNET
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern bool volt_stack_push_uint64(StackPointer stack, UInt64 value, out UInt64 stackOffset);
 
+        //[DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        //public static extern unsafe bool volt_stack_push_string(StackPointer stack, char* value, out UInt64 stackOffset);
+
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
-        public static extern unsafe bool volt_stack_push_string(StackPointer stack, char* value, out UInt64 stackOffset);
+        public static extern unsafe bool volt_stack_push_string(StackPointer stack, [MarshalAs(UnmanagedType.LPStr )] string value, out UInt64 stackOffset);
+
+        [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
+        public static extern unsafe bool volt_stack_push_string(StackPointer stack, UIntPtr value, out UInt64 stackOffset);
 
         [DllImport(LIBRARY_NAME, CallingConvention = CallingConvention.Cdecl)]
         public static extern unsafe bool volt_stack_pop(StackPointer stack, byte* target, out UInt64 stackOffset);
