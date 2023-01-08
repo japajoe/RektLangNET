@@ -26,13 +26,15 @@ namespace VoltLangNETApplication
         {
             string filepath = "fibonacci.vlt";
 
+            if(args.Length > 0)
+                filepath = args[0];
+
             Assembly assembly = new Assembly();
             VirtualMachine machine = new VirtualMachine();
             Compiler compiler = new Compiler();
 
-            ModuleLoader.Load(new MathModule());
-            ModuleLoader.Load(new SystemModule());
-            ModuleLoader.Load(new MemoryModule());
+            //Loads modules located in the native library
+            ModuleLoader.LoadDefaultModules();
 
             if(compiler.CompileFromFile(filepath, assembly))
             {
@@ -62,6 +64,7 @@ namespace VoltLangNETApplication
             machine.Dispose();
             assembly.Dispose();
 
+            //Releases resources allocated by modules (if any).
             ModuleLoader.Dispose();
         }
     }
