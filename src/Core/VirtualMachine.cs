@@ -95,9 +95,9 @@ namespace VoltLangNET
         /// Gets a span with bytes that are inside the registers.
         /// </summary>
         /// <returns>A span with bytes</returns>
-        public Span<byte> GetRegisters()
+        public Span<VoltObject> GetRegisters()
         {
-            VoltNative.volt_virtual_machine_get_registers(handle, out Span<byte> buffer);
+            VoltNative.volt_virtual_machine_get_registers(handle, out Span<VoltObject> buffer);
             return buffer;
         }
 

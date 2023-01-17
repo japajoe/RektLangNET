@@ -24,340 +24,111 @@ namespace VoltLangNET
             VoltNative.volt_stack_clear(handle);
         }
 
-        public bool Push(byte[] data, DataType type, out UInt64 stackOffset)
+        public bool Push(VoltObject obj)
         {
-            return VoltNative.volt_stack_push(handle, data, type, out stackOffset);
+            return VoltNative.volt_stack_push(handle, obj);
         }
 
-        public bool PushDouble(double value, out UInt64 stackOffset)
+        public bool Push(Int64 value)
         {
-            return VoltNative.volt_stack_push_double(handle, value, out stackOffset);
+            VoltObject obj = new VoltObject(value);
+            return VoltNative.volt_stack_push(handle, obj);
+        }
+
+        public bool Push(UInt64 value)
+        {
+            VoltObject obj = new VoltObject(value);
+            return VoltNative.volt_stack_push(handle, obj);
+        }
+
+        public bool Push(double value)
+        {
+            VoltObject obj = new VoltObject(value);
+            return VoltNative.volt_stack_push(handle, obj);
+        }
+
+        public bool Push(IntPtr value, DataType type)
+        {
+            VoltObject obj = new VoltObject(value.ToPointer(), type);
+            return VoltNative.volt_stack_push(handle, obj);
         }        
 
-        public bool PushInt64(Int64 value, out UInt64 stackOffset)
+        public bool Pop(out VoltObject obj)
         {
-            return VoltNative.volt_stack_push_int64(handle, value, out stackOffset);
+            return VoltNative.volt_stack_pop(handle, out obj);
         }
 
-        public bool PushUInt64(UInt64 value, out UInt64 stackOffset)
+        public bool Pop(out Int64 value)
         {
-            return VoltNative.volt_stack_push_uint64(handle, value, out stackOffset);
+            value = default;
+            VoltObject obj;
+            if(VoltNative.volt_stack_pop(handle, out obj))
+            {
+                if(obj.type == DataType.Int64Pointer)
+                    value = *obj.as_int64_pointer;
+                else
+                    value = obj.as_int64;
+                return true;
+            }
+
+            return false;
         }
 
-        public bool PushString(string value, out UInt64 stackOffset)
+        public bool Pop(out UInt64 value)
         {
-            return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
+            value = default;
+            VoltObject obj;
+            if(VoltNative.volt_stack_pop(handle, out obj))
+            {
+                if(obj.type == DataType.UInt64Pointer)
+                    value = *obj.as_uint64_pointer;
+                else
+                    value = obj.as_uint64;
+                return true;
+            }
+
+            return false;
         }
 
-        public bool PushString(UIntPtr value, out UInt64 stackOffset)
+        public bool Pop(out double value)
         {
-            return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
+            value = default;
+            VoltObject obj;
+            if(VoltNative.volt_stack_pop(handle, out obj))
+            {
+                if(obj.type == DataType.DoublePointer)
+                    value = *obj.as_double_pointer;
+                else
+                    value = obj.as_double;
+                return true;
+            }
+
+            return false;
         }
 
-        // public bool PushString(char* value, out UInt64 stackOffset)
-        // {
-        //     return VoltNative.volt_stack_push_string(handle, value, out stackOffset);
-        // }                   
-
-        public bool Pop(byte[] target, out UInt64 stackOffset)
+        public bool Pop(out IntPtr value, out DataType type)
         {
-            return VoltNative.volt_stack_pop(handle, target, out stackOffset);
-        }
+            value = default;
+            type = DataType.Undefined;
+            VoltObject obj;
+            if(VoltNative.volt_stack_pop(handle, out obj))
+            {
+                value = new IntPtr(obj.as_void_pointer);
+                type = obj.type;
+                return true;
+            }
+
+            return false;
+        }        
 
         /// <summary>
-        /// Pops x number of items off the stack.
+        /// Gets the type of the objects that is on the top of the stack.
         /// </summary>
-        /// <param name="count">The number if items to pop</param>
-        /// <param name=""></param>
-        /// <returns>True on succes or when there is nothing to pop, false on failure</returns>
-        public bool Pop(UInt64 count, out UInt64 stackOffset)
+        /// <returns>The type of the objects that is on the top of the stack</returns>
+        public DataType GetTopType()
         {
-            if (GetCount() == 0)
-            {
-                stackOffset = 0;
-                return true;
-            }
-
-            return VoltNative.volt_stack_pop_with_count(handle, count, out stackOffset);
+            return VoltNative.volt_stack_get_top_type(handle);
         }
-
-        public bool PopDouble(byte[] target, out double value, out UInt64 stackOffset)
-        {
-            value = 0;
-            stackOffset = 0;
-
-            if(VoltNative.volt_stack_pop(handle, target, out stackOffset))
-            {
-                value = BitConverter.ToDouble(target, 0);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool PopUInt64(byte[] target, out UInt64 value, out UInt64 stackOffset)
-        {
-            value = 0;
-
-            if(VoltNative.volt_stack_pop(handle, target, out stackOffset))
-            {
-                value = BitConverter.ToUInt64(target, 0);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool PopInt64(byte[] target, out Int64 value, out UInt64 stackOffset)
-        {
-            value = 0;
-
-            if(VoltNative.volt_stack_pop(handle, target, out stackOffset))
-            {
-                value = BitConverter.ToInt64(target, 0);
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool TryPopAsDouble(byte[] target, out double value, out UInt64 stackOffset)
-        {
-            value = 0;
-            stackOffset = 0;
-
-            DataType type = GetTopType();
-
-            switch(type)
-            {
-                case DataType.Double:
-                {
-                    if(!PopDouble(target, out value, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }
-                case DataType.UInt64:
-                {
-                    if(!PopUInt64(target, out UInt64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-
-                    value = (double)v;
-                    return true;
-                }
-                case DataType.Int64:
-                {
-                    if(!PopInt64(target, out Int64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = (double)v;
-                    return true;
-                }
-                default:
-                    return false;
-            }
-        }
-
-        public bool TryPopAsUInt64(byte[] target, out UInt64 value, out UInt64 stackOffset)
-        {
-            value = 0;
-            stackOffset = 0;
-
-            DataType type = GetTopType();
-
-            switch(type)
-            {
-                case DataType.Double:
-                {
-                    if(!PopDouble(target, out double v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = (UInt64)v;
-                    return true;
-                }
-                case DataType.UInt64:
-                {
-                    if(!PopUInt64(target, out value, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }
-                case DataType.Int64:
-                {
-                    if(!PopInt64(target, out Int64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = (UInt64)v;
-                    return true;
-                }               
-                default:
-                    return false;
-            }
-        }
-
-        public bool TryPopAsInt64(byte[] target, out Int64 value, out UInt64 stackOffset)
-        {
-            value = 0;
-            stackOffset = 0;
-
-            DataType type = GetTopType();
-
-            switch(type)
-            {
-                case DataType.Double:
-                {
-                    if(!PopDouble(target, out double v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = (Int64)v;
-                    return true;
-                }
-                case DataType.UInt64:
-                {
-                    if(!PopUInt64(target, out UInt64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = (Int64)v;
-                    return true;
-                }
-                case DataType.Int64:
-                {
-                    if(!PopInt64(target, out value, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }
-                default:
-                    return false;
-            }
-        }
-
-        public bool TryPopAsString(byte[] target, out string value, out UInt64 stackOffset)
-        {
-            value = default;
-            stackOffset = 0;
-
-            DataType type = GetTopType();            
-
-            switch(type)
-            {
-                case DataType.Double:
-                {
-                    if(!PopDouble(target, out double v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v.ToString();
-                    return true;
-                }
-                case DataType.UInt64:
-                {
-                    if(!PopUInt64(target, out UInt64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v.ToString();
-                    return true;
-                }
-                case DataType.Int64:
-                {
-                    if(!PopInt64(target, out Int64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v.ToString();
-                    return true;
-                }
-                case DataType.Pointer:
-                {
-                    if(!Pop(target, out ulong offset))
-                    {
-                        return false;
-                    }
-
-                    value = NullTerminatedString.GetString(target);
-                    return true;
-                }                
-                default:
-                    return false;
-            }        
-        }
-
-        public bool TryPopAsObject(byte[] target, out object value, out UInt64 stackOffset)
-        {
-            value = default;
-            stackOffset = 0;
-
-            DataType type = GetTopType();
-
-            switch(type)
-            {
-                case DataType.Double:
-                {
-                    if(!PopDouble(target, out double v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v;
-                    return true;
-                }
-                case DataType.UInt64:
-                {
-                    if(!PopUInt64(target, out UInt64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v;
-                    return true;
-                }
-                case DataType.Int64:
-                {
-                    if(!PopInt64(target, out Int64 v, out stackOffset))
-                    {
-                        return false;
-                    }
-
-                    value = v;
-                    return true;
-                }
-                case DataType.Pointer:
-                {
-                    if(!Pop(target, out ulong offset))
-                    {
-                        return false;
-                    }
-
-                    value = NullTerminatedString.GetString(target);
-                    return true;
-                }
-                default:
-                    return false;
-            }        
-        }        
 
         public bool CheckType(DataType type, Int64 index)
         {
@@ -392,58 +163,22 @@ namespace VoltLangNET
             }
 
             return true;
-        }
+        }        
 
         /// <summary>
-        /// Gets a pointer to the stack buffer.
+        /// Gets the total capacity of the stack in number of objects.
         /// </summary>
-        /// <returns>A pointer to the stack buffer</returns>
-        public IntPtr GetBuffer()
-        {
-            return VoltNative.volt_stack_get_buffer(handle);
-        }
-
-        /// <summary>
-        /// Gets a pointer to the item on the top of the stack.
-        /// </summary>
-        /// <returns>A pointer to the item on the top of the stack.</returns>
-        public IntPtr GetTop()
-        {
-            return VoltNative.volt_stack_get_top(handle);
-        }
-
-        /// <summary>
-        /// Gets the type of the item that is on the top of the stack.
-        /// </summary>
-        /// <returns>The type of the item that is on the top of the stack</returns>
-        public DataType GetTopType()
-        {
-            return VoltNative.volt_stack_get_top_type(handle);
-        }
-
-        /// <summary>
-        /// Gets the total capacity of the stack in number of bytes.
-        /// </summary>
-        /// <returns>The total capacity of the stack in number of bytes.</returns>
+        /// <returns>The total capacity of the stack in number of objects.</returns>
         public UInt64 GetCapacity()
         {
             return VoltNative.volt_stack_get_capacity(handle);
-        }
+        }        
 
         /// <summary>
-        /// Gets the number of bytes that currently is in the stack.
+        /// Gets the number of objects currently on the stack.
         /// </summary>
-        /// <returns>The number of bytes that currently is in the stack</returns>
-        public UInt64 GetSize()
-        {
-            return VoltNative.volt_stack_get_size(handle);
-        }
-
-        /// <summary>
-        /// Gets the number of items currently on the stack.
-        /// </summary>
-        /// <returns>The number of items currently on the stack</returns>
-        public UInt64 GetCount()
+        /// <returns>The number of objects currently on the stack</returns>
+        public UInt64 Getcount()
         {
             return VoltNative.volt_stack_get_count(handle);
         }
