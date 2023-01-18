@@ -79,7 +79,7 @@ namespace VoltLangNETApplication
 ```
 
 # Examples
-Check [here](https://github.com/japajoe/VoltLangNET/tree/main/Examples).
+Check [here](https://github.com/japajoe/VoltLangNET/tree/main/examples).
 
 # Instructions
 **MOV**
