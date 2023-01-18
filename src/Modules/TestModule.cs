@@ -30,7 +30,6 @@ namespace VoltLangNET
             if(stack.Pop(out obj))
             {
                 Console.WriteLine(obj.type);
-
                 Console.WriteLine(obj.as_double);
             }
 
