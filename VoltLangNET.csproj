@@ -14,10 +14,10 @@
   </Target>
 
   <ItemGroup>
-    <Content Remove="**/Examples/**" />
-    <Compile Remove="**/Examples/**" />
-    <EmbeddedResource Remove="**/Examples/**" />
-    <None Remove="**/Examples/**" />
+    <Content Remove="**/examples/**" />
+    <Compile Remove="**/examples/**" />
+    <EmbeddedResource Remove="**/examples/**" />
+    <None Remove="**/examples/**" />
   </ItemGroup>
 
 </Project>
