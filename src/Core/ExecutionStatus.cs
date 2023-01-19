@@ -1,4 +1,4 @@
-namespace VoltLangNET
+namespace RektLangNET
 {
     public enum ExecutionStatus
     {

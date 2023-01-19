@@ -1,4 +1,4 @@
-namespace VoltLangNET
+namespace RektLangNET
 {
     public interface IModule
     {

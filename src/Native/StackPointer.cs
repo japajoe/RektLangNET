@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct StackPointer

@@ -6,11 +6,11 @@
   </PropertyGroup>
 
   <Target Name="CopyLibs Windows x64" AfterTargets="AfterBuild">
-    <Copy SourceFiles="libs/volt.dll" DestinationFolder="$(OutDir)" />
+    <Copy SourceFiles="libs/rekt.dll" DestinationFolder="$(OutDir)" />
   </Target>
 
-    <Target Name="CopyLibs Linux x64" AfterTargets="AfterBuild">
-    <Copy SourceFiles="libs/libvolt.so" DestinationFolder="$(OutDir)" />
+  <Target Name="CopyLibs Linux x64" AfterTargets="AfterBuild">
+    <Copy SourceFiles="libs/librekt.so" DestinationFolder="$(OutDir)" />
   </Target>
 
   <ItemGroup>

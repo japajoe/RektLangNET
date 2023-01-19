@@ -1,10 +1,10 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public unsafe class TestModule : IModule
     {
-        private static VoltVMFunction testFunction;
+        private static RektVMFunction testFunction;
 
         public TestModule()
         {
@@ -25,7 +25,7 @@ namespace VoltLangNET
         {
             Stack stack = new Stack(sp);
 
-            VoltObject obj;
+            RektObject obj;
 
             if(stack.Pop(out obj))
             {

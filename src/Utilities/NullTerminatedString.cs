@@ -1,6 +1,6 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public unsafe struct NullTerminatedString
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public class Compiler : IDisposable
     {
@@ -19,7 +19,7 @@ namespace VoltLangNET
         /// </summary>
         public Compiler()
         {
-            handle = VoltNative.volt_compiler_create();
+            handle = RektNative.rekt_compiler_create();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool CompileFromFile(string filepath, Assembly assembly)
         {
-            return VoltNative.volt_compile_from_file(handle, filepath, assembly.Handle);
+            return RektNative.rekt_compile_from_file(handle, filepath, assembly.Handle);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool CompileFromText(string source, Assembly assembly)
         {
-            return VoltNative.volt_compile_from_text(handle, source, assembly.Handle);
+            return RektNative.rekt_compile_from_text(handle, source, assembly.Handle);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace VoltLangNET
         /// </summary>
         public void Dispose()
         {
-            VoltNative.volt_compiler_destroy(handle);
+            RektNative.rekt_compiler_destroy(handle);
         }
     }
 }

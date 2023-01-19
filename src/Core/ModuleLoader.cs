@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public static class ModuleLoader
     {
@@ -9,7 +9,7 @@ namespace VoltLangNET
 
         public static void LoadDefaultModules()
         {
-            VoltNative.volt_modules_load();
+            RektNative.rekt_modules_load();
         }
         
         public static void Load(IModule module)
@@ -29,7 +29,7 @@ namespace VoltLangNET
                 module.Dispose();
             }
 
-            VoltNative.volt_modules_dispose();
+            RektNative.rekt_modules_dispose();
         }
     }
 }

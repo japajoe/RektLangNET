@@ -1,6 +1,6 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public class Assembly : IDisposable
     {
@@ -23,7 +23,7 @@ namespace VoltLangNET
             {
                 if(!handle.IsValid)
                     return 0;
-                return VoltNative.volt_assembly_get_num_instructions(handle);
+                return RektNative.rekt_assembly_get_num_instructions(handle);
             }
         }
 
@@ -32,7 +32,7 @@ namespace VoltLangNET
         /// </summary>
         public Assembly()
         {
-            handle = VoltNative.volt_assembly_create();
+            handle = RektNative.rekt_assembly_create();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool GetSymbolInfo(string name, out UInt64 startOffset, out UInt64 size, out DataType DataType)
         {
-            return VoltNative.volt_assembly_get_symbol_info(handle, name, out startOffset, out size, out DataType);
+            return RektNative.rekt_assembly_get_symbol_info(handle, name, out startOffset, out size, out DataType);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool GetLabelInfo(string name, out UInt64 offset)
         {
-            return VoltNative.volt_assembly_get_label_info(handle, name, out offset);
+            return RektNative.rekt_assembly_get_label_info(handle, name, out offset);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace VoltLangNET
         /// <returns>A string array with symbols defined in the assembly.</returns>
         public string[] GetSymbols()
         {
-            return VoltNative.volt_assembly_get_symbols(handle);
+            return RektNative.rekt_assembly_get_symbols(handle);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace VoltLangNET
         /// <returns>A string array with labels defined in the assembly.</returns>
         public string[] GetLabels()
         {
-            return VoltNative.volt_assembly_get_labels(handle);
+            return RektNative.rekt_assembly_get_labels(handle);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace VoltLangNET
         /// <returns>The OpCode of the instruction at given offset. On failure, returns OpCode.NUM_OPCODES.</returns>
         public OpCode GetInstructionOpCode(UInt64 offset)
         {
-            return VoltNative.volt_assembly_get_instruction_opcode(handle, offset);
+            return RektNative.rekt_assembly_get_instruction_opcode(handle, offset);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace VoltLangNET
         /// </summary>
         public void Dispose()
         {
-            VoltNative.volt_assembly_destroy(handle);
+            RektNative.rekt_assembly_destroy(handle);
         }
     }
 }

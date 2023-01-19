@@ -1,6 +1,6 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public unsafe struct Stack
     {
@@ -21,48 +21,48 @@ namespace VoltLangNET
 
         public void Clear()
         {
-            VoltNative.volt_stack_clear(handle);
+            RektNative.rekt_stack_clear(handle);
         }
 
-        public bool Push(VoltObject obj)
+        public bool Push(RektObject obj)
         {
-            return VoltNative.volt_stack_push(handle, obj);
+            return RektNative.rekt_stack_push(handle, obj);
         }
 
         public bool Push(Int64 value)
         {
-            VoltObject obj = new VoltObject(value);
-            return VoltNative.volt_stack_push(handle, obj);
+            RektObject obj = new RektObject(value);
+            return RektNative.rekt_stack_push(handle, obj);
         }
 
         public bool Push(UInt64 value)
         {
-            VoltObject obj = new VoltObject(value);
-            return VoltNative.volt_stack_push(handle, obj);
+            RektObject obj = new RektObject(value);
+            return RektNative.rekt_stack_push(handle, obj);
         }
 
         public bool Push(double value)
         {
-            VoltObject obj = new VoltObject(value);
-            return VoltNative.volt_stack_push(handle, obj);
+            RektObject obj = new RektObject(value);
+            return RektNative.rekt_stack_push(handle, obj);
         }
 
         public bool Push(IntPtr value, DataType type)
         {
-            VoltObject obj = new VoltObject(value.ToPointer(), type);
-            return VoltNative.volt_stack_push(handle, obj);
+            RektObject obj = new RektObject(value.ToPointer(), type);
+            return RektNative.rekt_stack_push(handle, obj);
         }        
 
-        public bool Pop(out VoltObject obj)
+        public bool Pop(out RektObject obj)
         {
-            return VoltNative.volt_stack_pop(handle, out obj);
+            return RektNative.rekt_stack_pop(handle, out obj);
         }
 
         public bool Pop(out Int64 value)
         {
             value = default;
-            VoltObject obj;
-            if(VoltNative.volt_stack_pop(handle, out obj))
+            RektObject obj;
+            if(RektNative.rekt_stack_pop(handle, out obj))
             {
                 if(obj.type == DataType.Int64Pointer)
                     value = *obj.as_int64_pointer;
@@ -77,8 +77,8 @@ namespace VoltLangNET
         public bool Pop(out UInt64 value)
         {
             value = default;
-            VoltObject obj;
-            if(VoltNative.volt_stack_pop(handle, out obj))
+            RektObject obj;
+            if(RektNative.rekt_stack_pop(handle, out obj))
             {
                 if(obj.type == DataType.UInt64Pointer)
                     value = *obj.as_uint64_pointer;
@@ -93,8 +93,8 @@ namespace VoltLangNET
         public bool Pop(out double value)
         {
             value = default;
-            VoltObject obj;
-            if(VoltNative.volt_stack_pop(handle, out obj))
+            RektObject obj;
+            if(RektNative.rekt_stack_pop(handle, out obj))
             {
                 if(obj.type == DataType.DoublePointer)
                     value = *obj.as_double_pointer;
@@ -110,8 +110,8 @@ namespace VoltLangNET
         {
             value = default;
             type = DataType.Undefined;
-            VoltObject obj;
-            if(VoltNative.volt_stack_pop(handle, out obj))
+            RektObject obj;
+            if(RektNative.rekt_stack_pop(handle, out obj))
             {
                 value = new IntPtr(obj.as_void_pointer);
                 type = obj.type;
@@ -127,12 +127,12 @@ namespace VoltLangNET
         /// <returns>The type of the objects that is on the top of the stack</returns>
         public DataType GetTopType()
         {
-            return VoltNative.volt_stack_get_top_type(handle);
+            return RektNative.rekt_stack_get_top_type(handle);
         }
 
         public bool CheckType(DataType type, Int64 index)
         {
-            return VoltNative.volt_stack_check_type(handle, type, index);
+            return RektNative.rekt_stack_check_type(handle, type, index);
         }
 
         public bool CheckTypesTopToBottom(params DataType[] types)
@@ -171,7 +171,7 @@ namespace VoltLangNET
         /// <returns>The total capacity of the stack in number of objects.</returns>
         public UInt64 GetCapacity()
         {
-            return VoltNative.volt_stack_get_capacity(handle);
+            return RektNative.rekt_stack_get_capacity(handle);
         }        
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace VoltLangNET
         /// <returns>The number of objects currently on the stack</returns>
         public UInt64 Getcount()
         {
-            return VoltNative.volt_stack_get_count(handle);
+            return RektNative.rekt_stack_get_count(handle);
         }
     }
 }

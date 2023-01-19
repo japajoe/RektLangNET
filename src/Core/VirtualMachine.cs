@@ -1,6 +1,6 @@
 using System;
 
-namespace VoltLangNET
+namespace RektLangNET
 {
     public class VirtualMachine : IDisposable
     {
@@ -20,7 +20,7 @@ namespace VoltLangNET
         /// <param name="stackCapacity">The capacity of the stack in number of bytes. Minimum size is 1024 and must be a power of 2.</param>
         public VirtualMachine(UInt64 stackCapacity = 8192)
         {
-            handle = VoltNative.volt_virtual_machine_create(stackCapacity);
+            handle = RektNative.rekt_virtual_machine_create(stackCapacity);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool LoadAssembly(Assembly assembly)
         {
-            return VoltNative.volt_virtual_machine_load_assembly(handle, assembly.Handle);
+            return RektNative.rekt_virtual_machine_load_assembly(handle, assembly.Handle);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool Reset()
         {
-            return VoltNative.volt_virtual_machine_reset(handle);
+            return RektNative.rekt_virtual_machine_reset(handle);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace VoltLangNET
         /// <returns>The offset of the instruction pointer.</returns>
         public UInt64 GetInstructionPointer()
         {
-            return VoltNative.volt_virtual_machine_get_instruction_pointer(handle);
+            return RektNative.rekt_virtual_machine_get_instruction_pointer(handle);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace VoltLangNET
         /// <returns>True on success, false on failure.</returns>
         public bool SetInstructionPointer(UInt64 offset)
         {
-            return VoltNative.volt_virtual_machine_set_instruction_pointer(handle, offset);
+            return RektNative.rekt_virtual_machine_set_instruction_pointer(handle, offset);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace VoltLangNET
         /// <returns>An ExecutionStatus telling whether the execution was successful or not.</returns>
         public ExecutionStatus Run()
         {
-            return VoltNative.volt_virtual_machine_run(handle);
+            return RektNative.rekt_virtual_machine_run(handle);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace VoltLangNET
         /// <returns>An ExecutionStatus telling whether the execution was successful or not.</returns>
         public ExecutionStatus Call(UInt64 labelOffset)
         {
-            return VoltNative.volt_virtual_machine_call(handle, labelOffset);
+            return RektNative.rekt_virtual_machine_call(handle, labelOffset);
         }
 
         /// <summary>
@@ -86,18 +86,18 @@ namespace VoltLangNET
         /// <param name="name">The name of the function</param>
         /// <param name="fn_ptr">A pointer to the function</param>
         /// <returns>True on success, false on failure.</returns>
-        public static bool RegisterFunction(string name, VoltVMFunction fn_ptr)
+        public static bool RegisterFunction(string name, RektVMFunction fn_ptr)
         {
-            return VoltNative.volt_function_register(name, fn_ptr);
+            return RektNative.rekt_function_register(name, fn_ptr);
         }
 
         /// <summary>
         /// Gets a span with bytes that are inside the registers.
         /// </summary>
         /// <returns>A span with bytes</returns>
-        public Span<VoltObject> GetRegisters()
+        public Span<RektObject> GetRegisters()
         {
-            VoltNative.volt_virtual_machine_get_registers(handle, out Span<VoltObject> buffer);
+            RektNative.rekt_virtual_machine_get_registers(handle, out Span<RektObject> buffer);
             return buffer;
         }
 
@@ -107,7 +107,7 @@ namespace VoltLangNET
         /// <returns>A stack object.</returns>
         public Stack GetStack()
         {
-            var sp = VoltNative.volt_virtual_machine_get_stack(handle);
+            var sp = RektNative.rekt_virtual_machine_get_stack(handle);
             return new Stack(sp);
         }
 
@@ -117,7 +117,7 @@ namespace VoltLangNET
         /// <returns>The compare flag</returns>
         public Int64 GetCompareFlag()
         {
-            return VoltNative.volt_virtual_machine_get_compare_flag(handle);
+            return RektNative.rekt_virtual_machine_get_compare_flag(handle);
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace VoltLangNET
         /// <returns>The zero flag</returns>
         public Int64 GetZeroFlag()
         {
-            return VoltNative.volt_virtual_machine_get_zero_flag(handle);
+            return RektNative.rekt_virtual_machine_get_zero_flag(handle);
         }        
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace VoltLangNET
         /// </summary>
         public void Dispose()
         {
-            VoltNative.volt_virtual_machine_destroy(handle);
+            RektNative.rekt_virtual_machine_destroy(handle);
         }
     }
 }
