@@ -10,12 +10,15 @@ Support for types like
 This is a .NET wrapper for https://github.com/japajoe/rekt
 
 # News
-- 01/17/2023: Rewrote entire project. All entities on the stack and in registers are now considered an Object. This is a breaking change, old code is moved to 'legacy' branche. All further development will be on the main branche.
+- 01/22/2023: Modified 'db' directive so it can store pointers. It still allows you to define null terminated strings as before. For allocating memory you should use malloc. See the allocation example for more info.
+- 01/18/2023: Renamed project because all cool names were taken and I wasn't feeling super creative.
+- 01/16/2023: Rewrote entire project. All entities on the stack and in registers are now considered an Object. This is a breaking change, old code is moved to 'legacy' branche.
+- 01/05/2023: It is possible to print formatted strings. For more info on what string formatting options there are, see https://github.com/fmtlib/fmt
 
 # Note
 - Instruction opcodes are case sensitive and MUST be lower case!
 - Get the native libraries (x64) for Windows and Linux from the [libs](https://github.com/japajoe/RektLangNET/tree/main/libs) folder.
-- You need .net 7 for this library. You might be able to try it on 6 or even 5 but I haven't tested that.
+- You need .net 7 for this library. Should also work on 5 and 6 with some slight modifications.
 - This library lets you do (potentially) incredibly dumb things with memory and there is no hand holding. It is assumed that you have a concept of how memory works and it is your responsibility to clean up after yourself.
 - There is no formal documentation other than what is written here. For as long as nobody asks I will not be doing any effort to write one because I have no idea if somebody is actually using this and cares enough. After all this is a hobby project for me and my first VM project had 40 stars and 12 forks but not a single issue opened. So in order to get a deeper understanding see the native repository or open an issue and I will gladly help you.
 
